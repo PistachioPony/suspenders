@@ -8,11 +8,14 @@ describe 'suspending a project' do
   it 'creates a staging file which requires the production file' do
     staging_file = "#{suspended_directory}/config/environments/staging.rb"
 
-    expect(IO.read(staging_file)).to eq <<EOF
+    expect(IO.read(staging_file)).to eq expected_stagging_file
+  end
+end
+
+def expected_stagging_file
+  <<EOF
 require_relative 'production'
 Mail.register_interceptor RecipientInterceptor.new(ENV['EMAIL_RECIPIENTS'])
 EOF
 
-  end
 end
-
